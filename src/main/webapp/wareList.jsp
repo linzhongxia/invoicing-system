@@ -28,7 +28,7 @@
                     </h1>
                     <ol class="breadcrumb">
                         <li>
-                            <i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+                            <i class="fa fa-dashboard"></i> <a href="${ctx}/dashboard.do">Dashboard</a>
                         </li>
                         <li class="active">
                             <i class="fa fa-file"></i> 商品管理
@@ -167,7 +167,7 @@
                                                 备注：<input type="text" id="remark${ware.wareId}" value="">
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-default"
+                                                <button type="button" class="btn btn-danger"
                                                         onclick="addTrade(${ware.wareId})">
                                                     确认订购
                                                 </button>
@@ -178,6 +178,7 @@
                                 </c:if>
                                 </tbody>
                             </table>
+
                         </div>
                         <div style="text-align: right;width:100% ">
                             共${page.totalIndex}页，共计${page.totalNum}条记录，每页显示
@@ -248,9 +249,15 @@
             cache: false,
             dataType: "JSON",
             success: function (data) {
-                $("#remark" + wareId).val("");
-                showTr(wareId);
-                alert("订购成功");
+                var result = eval(data);
+                if(result.success){
+                    $("#remark" + wareId).val("");
+                    showTr(wareId);
+                    alert("订购成功");
+                    return;
+                }
+
+                alert(result.msg);
             }, error: function (data) {
                 alert("出错了");
             }

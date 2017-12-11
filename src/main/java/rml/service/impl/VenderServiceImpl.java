@@ -5,6 +5,7 @@ import org.springframework.util.CollectionUtils;
 import rml.dao.VenderMapper;
 import rml.model.Vender;
 import rml.service.VenderService;
+import rml.util.SeqEnum;
 import rml.vo.Factory.VenderFactory;
 import rml.vo.VenderVO;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by linzhongxia on 2017/10/11.
  */
 @Service("venderService")
-public class VenderServiceImpl implements VenderService {
+public class VenderServiceImpl extends BaseServiceImpl implements VenderService {
     @Resource
     private VenderMapper venderMapper;
 
@@ -34,7 +35,7 @@ public class VenderServiceImpl implements VenderService {
     @Override
     public long getCount(VenderVO vo) {
         Long count = venderMapper.getCount(vo);
-        if(count == null){
+        if (count == null) {
             return 0;
         }
         return count;
@@ -68,7 +69,22 @@ public class VenderServiceImpl implements VenderService {
     }
 
     @Override
-    public void add(Vender vender) {
+    public boolean add(Vender vender) {
+        Long venderId = null;
+        int tiems = 0;
+        while (venderId == null) {
+            if (tiems > 3) return false;
+            venderId = getNextSequence(SeqEnum.VENDER_ID.getKey());
+            tiems++;
+        }
+        vender.setId(venderId);
         venderMapper.add(vender);
+        return true;
+    }
+
+    @Override
+    public boolean update(Vender vender) {
+        venderMapper.update(vender);
+        return true;
     }
 }

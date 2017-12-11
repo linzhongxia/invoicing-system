@@ -88,7 +88,6 @@ public class TradeController {
             response.setContentType("application/msexcel;charset=UTF-8");
             fbytes.write(out);
         } catch (Exception e) {
-//            log.error("下载砍价经营效果EXCEL文件异常，ids:{},error:{}",ids,e);
             throw new RuntimeException("下载文件异常", e);
         }
     }
@@ -193,11 +192,12 @@ public class TradeController {
             return result;
         }
         tradeVO.setSkuId(skuVO.getSkuId());
+        tradeVO.setSupplierId(skuVO.getSupplierId());
         tradeVO.setMarketDay(DateUtil.formatDate(new Date(), DateUtil.TIME_FROMAT_DAY));
         //保存商品信息
         boolean addResult = tradeService.add(tradeVO);
         if (!addResult) {
-            result.setSuccess(true);
+            result.setSuccess(false);
             result.setMsg("保存预占信息出现异常");
             return result;
         }

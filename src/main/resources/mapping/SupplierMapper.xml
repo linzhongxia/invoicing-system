@@ -49,10 +49,11 @@
 
     <insert id="add" parameterType="rml.model.Vender">
         insert into T_SUPPLIER
-        (NAME,STATUS,MODIFIED,CREATED)
+        (<include refid="Base_Column_List"/>)
         values
-        (#{name},
-        0,
+        (#{id},
+        #{name},
+        1,
         now(),
         now())
     </insert>

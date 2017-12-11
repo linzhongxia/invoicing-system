@@ -27,7 +27,7 @@
                     </h1>
                     <ol class="breadcrumb">
                         <li>
-                            <i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+                            <i class="fa fa-dashboard"></i> <a href="${ctx}/dashboard.do">Dashboard</a>
                         </li>
                         <li class="active">
                             <i class="fa fa-file"></i> 出货单
@@ -116,9 +116,9 @@
                             </table>
                         </div>
                         <div style="width: 100%">
-                            <div style="float: left">
-                                <input type="button" value="下载出货单" onclick="downloadIOutReport()" class="btn btn-info">
-                            </div>
+                            <%--<div style="float: left">--%>
+                                <%--<input type="button" value="下载出货单" onclick="downloadIOutReport()" class="btn btn-info">--%>
+                            <%--</div>--%>
                             <div style="float: left">
                                 <input type="button" value="打印出货单" onclick="printOutReport()" class="btn btn-info" style="margin-left: 20px">
                             </div>

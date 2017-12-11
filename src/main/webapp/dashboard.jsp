@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="${ctx}/trade/init.do">
+                        <a href="${ctx}/trade/list.do">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="${ctx}/trade/out/list.do">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -105,7 +105,7 @@
                                 </table>
                             </div>
                             <div class="text-right">
-                                <a href="#">View More <i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="${ctx}/trade/in/list.do">View More <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -141,7 +141,7 @@
                                 </table>
                             </div>
                             <div class="text-right">
-                                <a href="#">View More<i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="${ctx}/trade/out/list.do">View More<i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>

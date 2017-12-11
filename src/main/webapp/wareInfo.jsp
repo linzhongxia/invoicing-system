@@ -32,7 +32,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+                                <i class="fa fa-dashboard"></i> <a href="${ctx}/dashboard.do">Dashboard</a>
                             </li>
                             <li class="active">
                                 <i class="fa fa-file"></i> 商品管理
@@ -55,7 +55,7 @@
                                         <input type="text" id="name" name="name" value="${wareVO.name}">
                                     </a>
                                     <a class="list-group-item"><b>供货商编号：</b>
-                                        <select name="supplierId" style="height: 26px">
+                                        <select id="supplierId" name="supplierId" style="height: 26px">
                                             <option value="">--未选择--</option>
                                             <c:if test="${supplierList !='null'}">
                                                 <c:forEach items="${supplierList}" var="supplier">
@@ -120,8 +120,10 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div style='text-align: center'>
-                            <button type="button" onclick="window.history.go(-1)" class="btn btn-info">返回</button>
-                            <button type="submit" class="btn btn-info" style="margin-left: 20px">提交</button>
+                            <button type="button" onclick="window.history.go(-1)" class="btn btn-default">返回</button>
+                            <button type="button" onclick="submitWareInfo()" class="btn btn-danger"
+                                    style="margin-left: 20px">提交
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -203,6 +205,15 @@
 
     function deleteTr(field) {
         $(field).parents('tr').remove();
+    }
+
+    function submitWareInfo() {
+        if ($("#supplierId").val() == "") {
+            alert("请选择供货商");
+            return;
+        }
+
+        $("#wareInfoForm").submit();
     }
 
 </script>

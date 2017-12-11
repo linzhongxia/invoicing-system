@@ -18,5 +18,7 @@ public interface VenderService {
 
     List<VenderVO> getAllList();
 
-    void add(Vender vender);
+    boolean add(Vender vender);
+
+    boolean update(Vender vender);
 }

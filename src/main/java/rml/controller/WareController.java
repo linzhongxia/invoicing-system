@@ -107,7 +107,7 @@ public class WareController {
             throw new Exception("更新商品信息出现异常");
         }
         //更新SKU信息中WARENAME
-        updateResult = skuService.updateWareName(wareVO.getWareId(),wareVO.getName());
+        updateResult = skuService.updateWareName(wareVO.getWareId(),wareVO.getName(),wareVO.getSupplierId());
         if (!updateResult) {
             throw new Exception("更新SKU商品名称出现异常");
         }

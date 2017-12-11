@@ -61,11 +61,12 @@ public class SkuServiceImpl implements SkuService {
     }
 
     @Override
-    public boolean updateWareName(Long wareId, String wareName) {
+    public boolean updateWareName(Long wareId, String wareName, Long supplierId) {
 
         Sku param = new Sku();
         param.setWareId(wareId);
         param.setWareName(wareName);
+        param.setSupplierId(supplierId);
 
         skuMapper.updateWareName(param);
         return true;
@@ -79,10 +80,10 @@ public class SkuServiceImpl implements SkuService {
 
         for (SkuVO skuVO : skuVOList) {
             Sku param = SkuFactory.INSTANCE.convertFromSkuVO(skuVO);
-            SkuVO vo = this.getSkuVO(param.getWareId(),param.getColour(),param.getSize());
+            SkuVO vo = this.getSkuVO(param.getWareId(), param.getColour(), param.getSize());
             if (vo == null) {
                 skuMapper.insert(param);
-            }else {
+            } else {
                 param.setId(vo.getSkuId());
                 skuMapper.update(param);
             }

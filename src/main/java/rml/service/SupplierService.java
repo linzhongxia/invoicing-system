@@ -12,15 +12,13 @@ import java.util.List;
  */
 public interface SupplierService {
 
-//    VenderVO getById(Long id);
-
     long getCount(SupplierVO vo);
 
     List<SupplierVO> getList(SupplierVO vo);
 
     List<SupplierVO> getAllList();
 
-    void add(Supplier supplier);
+    boolean add(Supplier supplier);
 
     boolean update(Supplier supplier);
 }

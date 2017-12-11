@@ -8,7 +8,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <style type="text/css">
-    b{
+    b {
         margin-left: 20px
     }
 </style>
@@ -28,7 +28,7 @@
                     </h1>
                     <ol class="breadcrumb">
                         <li>
-                            <i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+                            <i class="fa fa-dashboard"></i> <a href="${ctx}/dashboard.do">Dashboard</a>
                         </li>
                         <li class="active">
                             <i class="fa fa-file"></i> 订购记录
@@ -115,7 +115,11 @@
                                             <td>${tradeVO.remark}</td>
                                             <td>${tradeVO.marketDay}</td>
                                             <td>${tradeVO.created}</td>
-                                            <td><button type="button" class="btn btn-default">删除</button></td>
+                                            <td>
+                                                <button type="button" class="btn btn-default"
+                                                        onclick="deleteTrade(${tradeVO.id})">删除
+                                                </button>
+                                            </td>
                                         </tr>
                                         <c:set var="index" value="${index+1}"></c:set>
                                     </c:forEach>
@@ -131,17 +135,19 @@
                                 <option value="50">50</option>
                             </select>条
                             <c:if test="${page.index == '1'}">
-                                <input type="button"  disabled value="上一页">
+                                <input type="button" disabled value="上一页">
                             </c:if>
                             <c:if test="${page.index != '1'}">
-                                <input type="button" value="上一页" onclick="pageUtil.setPage(${page.index}-1,this.form.id)">
+                                <input type="button" value="上一页"
+                                       onclick="pageUtil.setPage(${page.index}-1,this.form.id)">
                             </c:if>
                             ${page.index}
                             <c:if test="${page.index == page.totalIndex}">
                                 <input type="button" disabled value="下一页">
                             </c:if>
                             <c:if test="${page.index != page.totalIndex}">
-                                <input type="button" value="下一页" onclick="pageUtil.setPage(${page.index}+1,this.form.id)">
+                                <input type="button" value="下一页"
+                                       onclick="pageUtil.setPage(${page.index}+1,this.form.id)">
                             </c:if>
                         </div>
                     </div>
@@ -155,7 +161,9 @@
 
 
 <script>
+    function deleteTrade(tradeId) {
 
+    }
 
 </script>
 </html>

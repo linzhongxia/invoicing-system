@@ -48,4 +48,14 @@ public class VenderController {
         result.setSuccess(true);
         return result;
     }
+
+    @RequestMapping(value = "/edite", method = RequestMethod.POST)
+    @ResponseBody
+    public Result edite(VenderVO venderVO) {
+        Vender vender = VenderFactory.INSTANCE.convertFromVenderVO(venderVO);
+        venderService.update(vender);
+        Result result = new Result();
+        result.setSuccess(true);
+        return result;
+    }
 }

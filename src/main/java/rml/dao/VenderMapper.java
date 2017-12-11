@@ -20,4 +20,6 @@ public interface VenderMapper {
     List<Vender> getAll();
 
     void add(Vender vender);
+
+    int update(Vender vender);
 }

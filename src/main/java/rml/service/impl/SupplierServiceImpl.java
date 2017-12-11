@@ -5,6 +5,7 @@ import org.springframework.util.CollectionUtils;
 import rml.dao.SupplierMapper;
 import rml.model.Supplier;
 import rml.service.SupplierService;
+import rml.util.SeqEnum;
 import rml.vo.Factory.SupplierFactory;
 import rml.vo.SupplierVO;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by linzhongxia on 2017/10/11.
  */
 @Service("supplierService")
-public class SupplierServiceImpl implements SupplierService {
+public class SupplierServiceImpl extends BaseServiceImpl implements SupplierService {
     @Resource
     private SupplierMapper supplierMapper;
 
@@ -56,8 +57,17 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public void add(Supplier supplier) {
+    public boolean add(Supplier supplier) {
+        Long supplierId = null;
+        int tiems = 0;
+        while (supplierId == null) {
+            if (tiems > 3) return false;
+            supplierId = getNextSequence(SeqEnum.VENDER_ID.getKey());
+            tiems++;
+        }
+        supplier.setId(supplierId);
         supplierMapper.add(supplier);
+        return true;
     }
 
     @Override

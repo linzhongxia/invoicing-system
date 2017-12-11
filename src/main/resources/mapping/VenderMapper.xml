@@ -60,15 +60,27 @@
 
     <insert id="add" parameterType="rml.model.Vender">
         insert into T_VENDER
-        (NAME, QQ, WX,TELEPHONE,MODIFIED,CREATED)
+        (<include refid="Base_Column_List"/>)
         values
-        (#{name},
+        (#{id},
+        #{name},
         #{qq},
         #{wx},
         #{telephone},
         now(),
         now())
     </insert>
+
+    <update id="update" parameterType="rml.model.Vender">
+        UPDATE T_VENDER
+        SET NAME = #{name} ,
+        QQ = #{qq},
+        WX = #{wx},
+        TELEPHONE = #{telephone},
+        MODIFIED = now()
+        WHERE ID = #{id}
+
+    </update>
 
     <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         SELECT

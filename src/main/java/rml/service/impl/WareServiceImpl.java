@@ -5,6 +5,7 @@ import org.springframework.util.CollectionUtils;
 import rml.dao.WareMapper;
 import rml.model.Ware;
 import rml.service.WareService;
+import rml.util.SeqEnum;
 import rml.vo.Factory.WareFactory;
 import rml.vo.WareVO;
 
@@ -19,8 +20,6 @@ import java.util.List;
 public class WareServiceImpl extends BaseServiceImpl implements WareService {
     @Resource
     private WareMapper wareMapper;
-    private static final String WARE_SEQUENCE_KEY = "WARE_ID";
-
 
     @Override
     public WareVO getById(Long wareId) {
@@ -60,7 +59,7 @@ public class WareServiceImpl extends BaseServiceImpl implements WareService {
         int tiems = 0;
         while (wareId == null) {
             if (tiems > 3) return false;
-            wareId = getNextSequence(WARE_SEQUENCE_KEY);
+            wareId = getNextSequence(SeqEnum.WARE_ID.getKey());
             tiems++;
         }
         wareVO.setWareId(wareId);

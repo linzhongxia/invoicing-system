@@ -27,7 +27,7 @@
                     </h1>
                     <ol class="breadcrumb">
                         <li>
-                            <i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+                            <i class="fa fa-dashboard"></i> <a href="${ctx}/dashboard.do">Dashboard</a>
                         </li>
                         <li class="active">
                             <i class="fa fa-file"></i> 商家管理
@@ -62,7 +62,27 @@
                                 <b>QQ：</b><input type="text" id="add_qq" name="add_qq">
                                 <b>WECHAT：</b><input type="text" id="add_wx" name="add_wx">
                                 <b>电话：</b><input type="text" id="add_telephone" name="add_telephone">
-                                <button type="button" class="btn btn-block" onclick="addVender()">确认添加</button>
+                                <button type="button" class="btn btn-info" onclick="addVender()">确认添加</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row" id="editeVenderDiv" hidden>
+                    <div class="col-lg-12">
+                        <div class="list-group">
+                            <a class="list-group-item">
+                                <h4>编辑商家信息</h4>
+                                <b>商家编号：</b><input type="text" id="edite_id" name="edite_id" readonly>(只读)
+                                <br>
+                                <b>昵称：</b><input type="text" id="edite_name" name="edite_name">
+                                <b>QQ：</b><input type="text" id="edite_qq" name="edite_qq">
+                                <b>WECHAT：</b><input type="text" id="edite_wx" name="edite_wx">
+                                <b>电话：</b><input type="text" id="edite_telephone" name="edite_telephone">
+                                <br>
+                                <button type="button" class="btn btn-default" style="margin-left: 20px" onclick="hiddenEditeVenderDiv()">取消</button>
+                                <button type="button" class="btn btn-info" style="margin-left: 20px" onclick="submitEdite()">保存修改</button>
                             </a>
                         </div>
                     </div>
@@ -70,19 +90,19 @@
 
 
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-10">
                         <h2></h2>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>序号</th>
+                                    <th style="width: 80px">序号</th>
                                     <th>编号</th>
                                     <th>昵称</th>
                                     <th>QQ号</th>
                                     <th>微信号</th>
                                     <th>电话号码</th>
-                                    <th>操作</th>
+                                    <th style="width: 80px">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -96,7 +116,12 @@
                                             <td>${vender.qq}</td>
                                             <td>${vender.wx}</td>
                                             <td>${vender.telephone}</td>
-                                            <td><a>编辑</a> <a>删除</a></td>
+                                            <td>
+                                                <button type="button" class="btn btn-default"
+                                                        onclick="editeVender(${vender.venderId},'${vender.name}','${vender.qq}','${vender.wx}','${vender.telephone}')">
+                                                    编译
+                                                </button>
+                                            </td>
                                         </tr>
                                         <c:set var="index" value="${index+1}"></c:set>
                                     </c:forEach>
@@ -157,6 +182,7 @@
             cache: false,
             dataType: "JSON",
             success: function (data) {
+                alert("添加商家成功");
                 pageUtil.submit("venderForm");
             }, error: function (data) {
                 alert("出错了");
@@ -164,6 +190,35 @@
         });
     }
 
+    function editeVender(venderId, venderName, qq, wx, telephone) {
+        $("#editeVenderDiv").show();
+        $("#edite_id").attr("value", venderId);
+        $("#edite_name").attr("value", venderName);
+        $("#edite_qq").attr("value", qq);
+        $("#edite_wx").attr("value", wx);
+        $("#edite_telephone").attr("value", telephone);
+    }
+
+    function hiddenEditeVenderDiv() {
+        $("#editeVenderDiv").hide();
+    }
+
+    function submitEdite() {
+        $.ajax({
+            type: 'POST',
+            url: "${ctx}/vender/edite.do",
+            data: "venderId=" + $("#edite_id").val()+"&name="+$("#edite_name").val()+"&qq="+$("#edite_qq").val()
+            +"&wx="+$("#edite_wx").val()+"&telephone="+$("#edite_telephone").val(),
+            cache: false,
+            dataType: "JSON",
+            success: function (data) {
+                alert("修改商家信息成功");
+                pageUtil.submit("venderForm");
+            }, error: function (data) {
+                alert("出错了");
+            }
+        });
+    }
 
 </script>
 </html>

@@ -22,7 +22,7 @@
                     </h1>
                     <ol class="breadcrumb">
                         <li>
-                            <i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+                            <i class="fa fa-dashboard"></i> <a href="${ctx}/dashboard.do">Dashboard</a>
                         </li>
                         <li class="active">
                             <i class="fa fa-file"></i> 商家管理

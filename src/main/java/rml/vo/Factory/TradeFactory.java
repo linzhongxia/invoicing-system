@@ -23,6 +23,7 @@ public class TradeFactory {
         trade.setVenderId(vo.getVenderId());
         trade.setSkuId(vo.getSkuId());
         trade.setWareId(vo.getWareId());
+        trade.setSupplierId(vo.getSupplierId());
         trade.setNum(vo.getNum());
         trade.setRemark(vo.getRemark());
         trade.setStatus(vo.getStatus());

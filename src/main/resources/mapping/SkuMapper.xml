@@ -19,13 +19,13 @@
         insert into T_SKU
         (<include refid="Base_Column_List"/>)
         values
-        (#{item.id},
-        #{item.wareName},
-        #{item.wareId},
-        #{item.supplierId},
-        #{item.size},
-        #{item.colour},
-        #{item.img})
+        (#{id},
+        #{wareName},
+        #{wareId},
+        #{supplierId},
+        #{size},
+        #{colour},
+        #{img})
     </insert>
 
     <insert id="insertByBatch" parameterType="rml.model.Sku">

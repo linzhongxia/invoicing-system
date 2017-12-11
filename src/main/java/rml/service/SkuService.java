@@ -12,7 +12,7 @@ public interface SkuService {
 
     boolean addSkuList(List<SkuVO> skuVOList);
 
-    boolean updateWareName(Long wareId, String wareName);
+    boolean updateWareName(Long wareId, String wareName, Long supplierId);
 
     boolean updateSkuList(List<SkuVO> skuVOList);
 

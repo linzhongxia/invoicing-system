@@ -93,45 +93,46 @@
     <select id="getSkuCount" resultType="java.lang.Long" parameterType="rml.vo.TradeVO">
         Select count(T.SKU_ID)
         FROM (
-          SELECT
-              DISTINCT SKU_ID
-          FROM
-              T_TRADE
-          WHERE
-              MARKET_DAY = #{marketDay}
-              <if test="wareId != null">
-                AND WARE_ID = #{wareId}
-              </if>
-              <if test="supplierId != null">
-                AND SUPPLIER_ID = #{supplierId}
-              </if>
+        SELECT
+        DISTINCT SKU_ID
+        FROM
+        T_TRADE
+        WHERE
+        MARKET_DAY = #{marketDay}
+        <if test="wareId != null">
+            AND WARE_ID = #{wareId}
+        </if>
+        <if test="supplierId != null">
+            AND SUPPLIER_ID = #{supplierId}
+        </if>
         ) T
     </select>
 
     <select id="getSkuList" resultMap="BaseResultMap" parameterType="rml.vo.TradeVO">
-        SELECT
-	        SUM(T.NUM) NUM,
-	        T.SKU_ID,
-	        T.MARKET_DAY
+        SELECT D.NUM,D.SKU_ID,D.MARKET_DAY
+        FROM(SELECT
+        SUM(T.NUM) NUM,
+        T.SKU_ID,
+        T.MARKET_DAY
         FROM
-	        T_TRADE T
-	    WHERE
-	        T.MARKET_DAY = #{marketDay}
-            <if test="wareId != null">
-                AND WARE_ID = #{wareId}
-            </if>
-            <if test="supplierId != null">
-                AND SUPPLIER_ID = #{supplierId}
-            </if>
+        T_TRADE T
+        WHERE
+        T.MARKET_DAY = #{marketDay}
+        <if test="wareId != null">
+            AND WARE_ID = #{wareId}
+        </if>
+        <if test="supplierId != null">
+            AND SUPPLIER_ID = #{supplierId}
+        </if>
         GROUP BY
-	        T.SKU_ID
-	    ORDER BY
-	        T.NUM DESC
-	    LIMIT #{indexNum},#{pageSize}
+        T.SKU_ID ) D
+        ORDER BY
+        D.NUM DESC
+        LIMIT #{indexNum},#{pageSize}
     </select>
 
     <select id="getVenderList" resultMap="BaseResultMap" parameterType="rml.vo.TradeVO">
-        SELECT
+        SELECT D.NUM,D.VENDER_ID,D.MARKET_DAY FROM (SELECT
 	        SUM(T.NUM) NUM,
 	        T.VENDER_ID,
 	        T.MARKET_DAY
@@ -140,15 +141,15 @@
 	    WHERE
 	        T.MARKET_DAY = #{marketDay}
         GROUP BY
-	        T.VENDER_ID
+	        T.VENDER_ID) D
         ORDER BY
-	        T.NUM DESC
+	        D.NUM DESC
 	    LIMIT #{indexNum},#{pageSize}
     </select>
 
     <select id="getCount" resultType="java.lang.Long" parameterType="rml.vo.TradeVO">
         SELECT
-           COUNT(T.ID)
+        COUNT(T.ID)
         FROM
         T_TRADE T
         WHERE 1=1
@@ -185,7 +186,7 @@
             AND SUPPLIER_ID = #{supplierId}
         </if>
         ORDER BY
-             T.CREATED DESC
+        T.CREATED DESC
         LIMIT #{indexNum},#{pageSize}
     </select>
 

@@ -51,6 +51,7 @@
             <a class="navbar-brand" href="dashboard.jsp">LinSoft-林工软件</a>
         </div>
         <!-- Top Menu Items -->
+        <!--
         <ul class="nav navbar-right top-nav">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b
@@ -156,13 +157,10 @@
                     </li>
                 </ul>
             </li>
-        </ul>
+        </ul> -->
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
-                <%--<li>--%>
-                <%--<a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>--%>
-                <%--</li>--%>
                 <li>
                     <a href="${ctx}/dashboard.do"><i class="fa fa-fw fa-bars"></i> 统计</a>
                 </li>

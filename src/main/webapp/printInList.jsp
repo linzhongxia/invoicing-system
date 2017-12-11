@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>供货管理系统</title>
+    <title>LinSoft-林工软件</title>
 
     <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 
