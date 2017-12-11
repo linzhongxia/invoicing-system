@@ -15,6 +15,8 @@ public interface TradeService {
 
     boolean add(TradeVO tradeVO);
 
+    boolean deleteById(Long tradeId);
+
     long getOrderNum(Date date);
 
     long getVenderNum(Date date);

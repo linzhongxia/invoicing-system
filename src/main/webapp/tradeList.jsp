@@ -117,7 +117,7 @@
                                             <td>${tradeVO.created}</td>
                                             <td>
                                                 <button type="button" class="btn btn-default"
-                                                        onclick="deleteTrade(${tradeVO.id})">删除
+                                                        onclick="deleteTrade(this,${tradeVO.id})">删除
                                                 </button>
                                             </td>
                                         </tr>
@@ -161,7 +161,27 @@
 
 
 <script>
-    function deleteTrade(tradeId) {
+    function deleteTrade(field, tradeId) {
+        if (confirm("确定要删除此条订购记录吗？")) {
+            $.ajax({
+                type: 'POST',
+                url: "${ctx}/trade/delete.do",
+                data: "tradeId=" + tradeId,
+                cache: false,
+                dataType: "JSON",
+                success: function (data) {
+                    var result = eval(data);
+                    if (result.success) {
+                        $(field).parents('tr').remove();
+                        alert("删除成功");
+                        return;
+                    }
+                    alert(result.msg);
+                }, error: function (data) {
+                    alert("出错了");
+                }
+            });
+        }
 
     }
 

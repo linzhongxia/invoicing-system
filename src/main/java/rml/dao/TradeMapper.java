@@ -15,6 +15,8 @@ public interface TradeMapper {
 
     int insert(Trade trade);
 
+    int deleteById(Long tradeId);
+
     Long getOrderNum(Date date);
 
     Long getVenderNum(Date date);

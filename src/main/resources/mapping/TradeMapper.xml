@@ -36,14 +36,20 @@
         now())
     </insert>
 
+    <delete id="deleteById" parameterType="java.lang.Long">
+    UPDATE T_TRADE
+    SET STATUS = 0,
+    MODIFIED = now()
+    WHERE ID = #{tradeId}
+    </delete>
 
     <select id="getOrderNum" parameterType="java.util.Date" resultType="java.lang.Long">
-         SELECT SUM(NUM) FROM T_TRADE WHERE MARKET_DAY = #{marketDay}
+         SELECT SUM(NUM) FROM T_TRADE WHERE MARKET_DAY = #{marketDay} AND STATUS = 1
     </select>
 
     <select id="getVenderNum" parameterType="java.util.Date" resultType="java.lang.Long">
          SELECT COUNT(T.VENDER_ID)
-         FROM (SELECT DISTINCT VENDER_ID FROM T_TRADE WHERE MARKET_DAY = #{marketDay}) T
+         FROM (SELECT DISTINCT VENDER_ID FROM T_TRADE WHERE MARKET_DAY = #{marketDay} AND STATUS = 1) T
     </select>
 
     <select id="getVenderSkuCount" resultType="java.lang.Long" parameterType="rml.vo.TradeVO">
@@ -54,7 +60,7 @@
         FROM
         T_TRADE T
         WHERE
-        T.MARKET_DAY = #{marketDay}
+        T.MARKET_DAY = #{marketDay} AND T.STATUS = 1
         <if test="venderId != null">
             AND VENDER_ID = #{venderId}
         </if>
@@ -75,7 +81,7 @@
         FROM
         T_TRADE T
         WHERE
-        T.MARKET_DAY = #{marketDay}
+        T.MARKET_DAY = #{marketDay} AND T.STATUS = 1
         <if test="venderId != null">
             AND VENDER_ID = #{venderId}
         </if>
@@ -98,7 +104,7 @@
         FROM
         T_TRADE
         WHERE
-        MARKET_DAY = #{marketDay}
+        MARKET_DAY = #{marketDay} AND STATUS = 1
         <if test="wareId != null">
             AND WARE_ID = #{wareId}
         </if>
@@ -117,7 +123,7 @@
         FROM
         T_TRADE T
         WHERE
-        T.MARKET_DAY = #{marketDay}
+        T.MARKET_DAY = #{marketDay} AND T.STATUS = 1
         <if test="wareId != null">
             AND WARE_ID = #{wareId}
         </if>
@@ -139,7 +145,7 @@
         FROM
 	        T_TRADE T
 	    WHERE
-	        T.MARKET_DAY = #{marketDay}
+	        T.MARKET_DAY = #{marketDay} AND T.STATUS = 1
         GROUP BY
 	        T.VENDER_ID) D
         ORDER BY
@@ -152,7 +158,7 @@
         COUNT(T.ID)
         FROM
         T_TRADE T
-        WHERE 1=1
+        WHERE STATUS = 1
         <if test="wareId != null">
             AND WARE_ID = #{wareId}
         </if>
@@ -172,7 +178,7 @@
         <include refid="Base_Column_List"/>
         FROM
         T_TRADE T
-        WHERE 1=1
+        WHERE STATUS = 1
         <if test="wareId != null">
             AND WARE_ID = #{wareId}
         </if>

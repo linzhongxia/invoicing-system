@@ -1,7 +1,5 @@
 package rml.service.impl;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.DoubleRange;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.*;
@@ -126,17 +124,17 @@ public class TradeServiceImpl implements TradeService {
             cell.setCellValue("明细");
             cell.setCellStyle(style);
 
-            Map<String,List<TradeVO>> reportDate = this.getInReportDate(param);
-            Set<String>  styleSet = reportDate.keySet();
+            Map<String, List<TradeVO>> reportDate = this.getInReportDate(param);
+            Set<String> styleSet = reportDate.keySet();
             if (!CollectionUtils.isEmpty(styleSet)) {
                 int i = 0;
                 for (String styleName : styleSet) {
                     List<TradeVO> tradeVOList = reportDate.get(styleName);
                     TradeVO tradeVO = tradeVOList.get(0);
-                    row = sheet.createRow( i + 1);
+                    row = sheet.createRow(i + 1);
                     cell = row.createCell(0);
                     cell.setCellType(Cell.CELL_TYPE_STRING);
-                    cell.setCellValue(String.valueOf(i+1));
+                    cell.setCellValue(String.valueOf(i + 1));
                     cell.setCellStyle(style);
 
                     cell = row.createCell(1);
@@ -157,8 +155,8 @@ public class TradeServiceImpl implements TradeService {
                     cell = row.createCell(4);
                     cell.setCellType(Cell.CELL_TYPE_STRING);
                     StringBuffer detail = new StringBuffer();
-                    for(TradeVO sizeVO : tradeVOList){
-                        detail.append(" ["+ sizeVO.getSize()+"]-"+sizeVO.getNum());
+                    for (TradeVO sizeVO : tradeVOList) {
+                        detail.append(" [" + sizeVO.getSize() + "]-" + sizeVO.getNum());
                     }
                     cell.setCellValue(detail.toString().substring(1));
                     cell.setCellStyle(style);
@@ -176,15 +174,15 @@ public class TradeServiceImpl implements TradeService {
         Map<String, List<TradeVO>> reportDate = new HashMap<String, List<TradeVO>>();
         long count = this.getSkuCount(param);
         if (count > 0) {
-            int times = (int)count / 100 + 1;
+            int times = (int) count / 100 + 1;
             for (int i = 1; i <= times; i++) {
                 param.setPage(i);
                 param.setPageSize(100);
                 List<TradeVO> voList = this.getSkuList(param);
-                for (TradeVO vo : voList){
-                    String mapKey = vo.getWareName()+" 【"+vo.getColour()+"】";
+                for (TradeVO vo : voList) {
+                    String mapKey = vo.getWareName() + " 【" + vo.getColour() + "】";
                     List<TradeVO> mapList = reportDate.get(mapKey);
-                    if(CollectionUtils.isEmpty(mapList)){
+                    if (CollectionUtils.isEmpty(mapList)) {
                         mapList = new ArrayList<TradeVO>();
                     }
                     TradeVO tradeVO = new TradeVO();
@@ -195,7 +193,7 @@ public class TradeServiceImpl implements TradeService {
                     tradeVO.setImg(vo.getImg());
 
                     mapList.add(tradeVO);
-                    reportDate.put(mapKey,mapList);
+                    reportDate.put(mapKey, mapList);
                 }
             }
         }
@@ -270,15 +268,15 @@ public class TradeServiceImpl implements TradeService {
         Map<String, List<TradeVO>> reportDate = new LinkedHashMap<String, List<TradeVO>>();
         long count = this.getVenderSkuCount(param);
         if (count > 0) {
-            int times = (int)count / 100 + 1;
+            int times = (int) count / 100 + 1;
             for (int i = 1; i <= times; i++) {
                 param.setPage(i);
                 param.setPageSize(100);
                 List<TradeVO> voList = this.getVenderSkuList(param);
-                for (TradeVO vo : voList){
-                    String mapKey = vo.getVenderId()+"_"+vo.getWareId()+"_"+vo.getColour();
+                for (TradeVO vo : voList) {
+                    String mapKey = vo.getVenderId() + "_" + vo.getWareId() + "_" + vo.getColour();
                     List<TradeVO> mapList = reportDate.get(mapKey);
-                    if(CollectionUtils.isEmpty(mapList)){
+                    if (CollectionUtils.isEmpty(mapList)) {
                         mapList = new ArrayList<TradeVO>();
                     }
                     TradeVO tradeVO = new TradeVO();
@@ -293,7 +291,7 @@ public class TradeServiceImpl implements TradeService {
                     tradeVO.setImg(vo.getImg());
 
                     mapList.add(tradeVO);
-                    reportDate.put(mapKey,mapList);
+                    reportDate.put(mapKey, mapList);
                 }
             }
         }
@@ -307,6 +305,17 @@ public class TradeServiceImpl implements TradeService {
         tradeMapper.insert(trade);
 
         return true;
+    }
+
+    @Override
+    public boolean deleteById(Long tradeId) {
+
+        int count = tradeMapper.deleteById(tradeId);
+        if (count > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override

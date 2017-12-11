@@ -62,7 +62,7 @@ public class SupplierServiceImpl extends BaseServiceImpl implements SupplierServ
         int tiems = 0;
         while (supplierId == null) {
             if (tiems > 3) return false;
-            supplierId = getNextSequence(SeqEnum.VENDER_ID.getKey());
+            supplierId = getNextSequence(SeqEnum.SUPPLIER_ID.getKey());
             tiems++;
         }
         supplier.setId(supplierId);

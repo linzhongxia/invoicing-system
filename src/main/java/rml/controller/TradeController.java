@@ -205,4 +205,20 @@ public class TradeController {
         result.setSuccess(true);
         return result;
     }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Result delete(Long tradeId) throws Exception {
+        Result result = new Result();
+        boolean deleteResult = tradeService.deleteById(tradeId);
+        if (!deleteResult) {
+            result.setSuccess(false);
+            result.setMsg("删除交易记录失败");
+            return result;
+        }
+        result.setSuccess(true);
+        return result;
+    }
+
+
 }
