@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.TradeMapper">
+    <resultMap id="BaseResultMap" type="rml.model.Trade">
+        <id column="ID" property="id"/>
+        <result column="VENDER_ID" property="venderId"/>
+        <result column="SKU_ID" property="skuId"/>
+        <result column="WARE_ID" property="wareId"/>
+        <result column="SUPPLIER_ID" property="supplierId"/>
+        <result column="NUM" property="num"/>
+        <result column="MARKET_DAY" property="marketDay"/>
+        <result column="REMARK" property="remark"/>
+        <result column="STATUS" property="status"/>
+        <result column="MODIFIED" property="modified"/>
+        <result column="CREATED" property="created"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    ID,VENDER_ID,SKU_ID,WARE_ID,SUPPLIER_ID,NUM,MARKET_DAY,REMARK,STATUS,MODIFIED,CREATED
+    </sql>
+
+    <insert id="insert" parameterType="rml.model.Trade">
+        insert into T_TRADE
+        (<include refid="Base_Column_List"/>)
+        values
+        (#{id},
+        #{venderId},
+        #{skuId},
+        #{wareId},
+        #{supplierId},
+        #{num},
+        #{marketDay},
+        #{remark},
+        1,
+        now(),
+        now())
+    </insert>
+
+
+    <select id="getOrderNum" parameterType="java.util.Date" resultType="java.lang.Long">
+         SELECT SUM(NUM) FROM T_TRADE WHERE MARKET_DAY = #{marketDay}
+    </select>
+
+    <select id="getVenderNum" parameterType="java.util.Date" resultType="java.lang.Long">
+         SELECT COUNT(T.VENDER_ID)
+         FROM (SELECT DISTINCT VENDER_ID FROM T_TRADE WHERE MARKET_DAY = #{marketDay}) T
+    </select>
+
+    <select id="getVenderSkuCount" resultType="java.lang.Long" parameterType="rml.vo.TradeVO">
+        SELECT COUNT(A.SKU_ID)
+        FROM (SELECT
+        T.VENDER_ID,
+        T.SKU_ID
+        FROM
+        T_TRADE T
+        WHERE
+        T.MARKET_DAY = #{marketDay}
+        <if test="venderId != null">
+            AND VENDER_ID = #{venderId}
+        </if>
+        <if test="supplierId != null">
+            AND SUPPLIER_ID = #{supplierId}
+        </if>
+        GROUP BY
+        T.VENDER_ID,
+        T.SKU_ID) A
+    </select>
+
+    <select id="getVenderSkuList" resultMap="BaseResultMap" parameterType="rml.vo.TradeVO">
+        SELECT
+        T.VENDER_ID,
+        T.SKU_ID,
+        SUM(T.NUM) NUM,
+        T.MARKET_DAY
+        FROM
+        T_TRADE T
+        WHERE
+        T.MARKET_DAY = #{marketDay}
+        <if test="venderId != null">
+            AND VENDER_ID = #{venderId}
+        </if>
+        <if test="supplierId != null">
+            AND SUPPLIER_ID = #{supplierId}
+        </if>
+        GROUP BY
+        T.VENDER_ID,
+        T.SKU_ID
+        ORDER BY
+        T.VENDER_ID DESC,NUM DESC
+        LIMIT #{indexNum},#{pageSize}
+    </select>
+
+    <select id="getSkuCount" resultType="java.lang.Long" parameterType="rml.vo.TradeVO">
+        Select count(T.SKU_ID)
+        FROM (
+          SELECT
+              DISTINCT SKU_ID
+          FROM
+              T_TRADE
+          WHERE
+              MARKET_DAY = #{marketDay}
+              <if test="wareId != null">
+                AND WARE_ID = #{wareId}
+              </if>
+              <if test="supplierId != null">
+                AND SUPPLIER_ID = #{supplierId}
+              </if>
+        ) T
+    </select>
+
+    <select id="getSkuList" resultMap="BaseResultMap" parameterType="rml.vo.TradeVO">
+        SELECT
+	        SUM(T.NUM) NUM,
+	        T.SKU_ID,
+	        T.MARKET_DAY
+        FROM
+	        T_TRADE T
+	    WHERE
+	        T.MARKET_DAY = #{marketDay}
+            <if test="wareId != null">
+                AND WARE_ID = #{wareId}
+            </if>
+            <if test="supplierId != null">
+                AND SUPPLIER_ID = #{supplierId}
+            </if>
+        GROUP BY
+	        T.SKU_ID
+	    ORDER BY
+	        T.NUM DESC
+	    LIMIT #{indexNum},#{pageSize}
+    </select>
+
+    <select id="getVenderList" resultMap="BaseResultMap" parameterType="rml.vo.TradeVO">
+        SELECT
+	        SUM(T.NUM) NUM,
+	        T.VENDER_ID,
+	        T.MARKET_DAY
+        FROM
+	        T_TRADE T
+	    WHERE
+	        T.MARKET_DAY = #{marketDay}
+        GROUP BY
+	        T.VENDER_ID
+        ORDER BY
+	        T.NUM DESC
+	    LIMIT #{indexNum},#{pageSize}
+    </select>
+
+    <select id="getCount" resultType="java.lang.Long" parameterType="rml.vo.TradeVO">
+        SELECT
+           COUNT(T.ID)
+        FROM
+        T_TRADE T
+        WHERE 1=1
+        <if test="wareId != null">
+            AND WARE_ID = #{wareId}
+        </if>
+        <if test="venderId != null">
+            AND VENDER_ID = #{venderId}
+        </if>
+        <if test="marketDay != null">
+            AND MARKET_DAY = #{marketDay}
+        </if>
+        <if test="supplierId != null">
+            AND SUPPLIER_ID = #{supplierId}
+        </if>
+    </select>
+
+    <select id="getList" resultMap="BaseResultMap" parameterType="rml.vo.TradeVO">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        T_TRADE T
+        WHERE 1=1
+        <if test="wareId != null">
+            AND WARE_ID = #{wareId}
+        </if>
+        <if test="venderId != null">
+            AND VENDER_ID = #{venderId}
+        </if>
+        <if test="marketDay != null">
+            AND MARKET_DAY = #{marketDay}
+        </if>
+        <if test="supplierId != null">
+            AND SUPPLIER_ID = #{supplierId}
+        </if>
+        ORDER BY
+             T.CREATED DESC
+        LIMIT #{indexNum},#{pageSize}
+    </select>
+
+</mapper>

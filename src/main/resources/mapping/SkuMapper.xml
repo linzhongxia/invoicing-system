@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.SkuMapper">
+    <resultMap id="BaseResultMap" type="rml.model.Sku">
+        <id column="ID" property="id"/>
+        <result column="WARE_NAME" property="wareName"/>
+        <result column="WARE_ID" property="wareId"/>
+        <result column="SUPPLIER_ID" property="supplierId"/>
+        <result column="SIZE" property="size"/>
+        <result column="COLOUR" property="colour"/>
+        <result column="IMG" property="img"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    ID, WARE_NAME, WARE_ID,SUPPLIER_ID,SIZE,COLOUR,IMG
+    </sql>
+
+    <insert id="insert" parameterType="rml.model.Sku">
+        insert into T_SKU
+        (<include refid="Base_Column_List"/>)
+        values
+        (#{item.id},
+        #{item.wareName},
+        #{item.wareId},
+        #{item.supplierId},
+        #{item.size},
+        #{item.colour},
+        #{item.img})
+    </insert>
+
+    <insert id="insertByBatch" parameterType="rml.model.Sku">
+        insert into T_SKU
+        (<include refid="Base_Column_List"/>)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id},
+            #{item.wareName},
+            #{item.wareId},
+            #{item.supplierId},
+            #{item.size},
+            #{item.colour},
+            #{item.img})
+        </foreach>
+    </insert>
+
+    <select id="getByObject" resultMap="BaseResultMap" parameterType="rml.model.Sku">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SKU T
+        WHERE T.WARE_ID = #{wareId}
+        AND T.SIZE = #{size}
+        AND T.COLOUR = #{colour}
+    </select>
+
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SKU T
+        WHERE T.ID = #{id}
+    </select>
+
+    <update id="updateWareName" parameterType="rml.model.Sku">
+        UPDATE T_SKU
+        SET WARE_NAME = #{wareName},
+        SUPPLIER_ID = #{supplierId}
+        WHERE WARE_ID = #{wareId}
+    </update>
+
+    <update id="update" parameterType="rml.model.Sku">
+        UPDATE T_SKU
+        SET IMG = #{img}
+        WHERE ID = #{id}
+    </update>
+
+</mapper>

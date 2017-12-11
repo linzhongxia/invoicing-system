@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.SequenceMapper">
+    <resultMap id="BaseResultMap" type="rml.model.Sequence">
+        <id column="ID" property="id"/>
+        <result column="NAME" property="name"/>
+        <result column="CURRENT_NUM" property="currentNum"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    ID, NAME, CURRENT_NUM
+    </sql>
+
+    <select id="getCurrentNum" resultType="java.lang.Long" parameterType="java.lang.String">
+        select CURRENT_NUM
+        from T_SEQUENCE
+        where NAME = #{name}
+    </select>
+
+    <update id="addCurrentNum" parameterType="rml.model.Sequence">
+        UPDATE T_SEQUENCE
+        SET CURRENT_NUM = CURRENT_NUM + 1
+        WHERE NAME = #{name}
+        AND CURRENT_NUM = #{currentNum}
+    </update>
+</mapper>

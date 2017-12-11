@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.VenderMapper">
+    <resultMap id="BaseResultMap" type="rml.model.Vender">
+        <id column="ID" property="id"/>
+        <result column="NAME" property="name"/>
+        <result column="QQ" property="qq"/>
+        <result column="WX" property="wx"/>
+        <result column="TELEPHONE" property="telephone"/>
+        <result column="MODIFIED" property="modified"/>
+        <result column="CREATED" property="created"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    ID, NAME, QQ, WX,TELEPHONE,MODIFIED,CREATED
+    </sql>
+
+    <sql id="Base_param">
+        <if test="venderId != null">
+            AND ID = #{venderId}
+        </if>
+        <if test="name != null">
+            AND NAME LIKE CONCAT('%',#{name},'%')
+        </if>
+        <if test="qq != null">
+            AND QQ = #{qq}
+        </if>
+        <if test="wx != null">
+            AND WX = #{wx}
+        </if>
+        <if test="telephone != null">
+            AND telephone = #{telephone}
+        </if>
+    </sql>
+
+    <select id="getCount" resultType="java.lang.Long" parameterType="rml.vo.VenderVO">
+        select
+        COUNT(T.ID)
+        from T_VENDER T
+        where 1=1
+        <include refid="Base_param"/>
+    </select>
+
+    <select id="getList" resultMap="BaseResultMap" parameterType="rml.vo.VenderVO">
+        select
+        <include refid="Base_Column_List"/>
+        from T_VENDER
+        where 1=1
+        <include refid="Base_param"/>
+        ORDER BY MODIFIED DESC
+        LIMIT #{indexNum},#{pageSize}
+    </select>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_VENDER
+        ORDER BY MODIFIED DESC
+    </select>
+
+    <insert id="add" parameterType="rml.model.Vender">
+        insert into T_VENDER
+        (NAME, QQ, WX,TELEPHONE,MODIFIED,CREATED)
+        values
+        (#{name},
+        #{qq},
+        #{wx},
+        #{telephone},
+        now(),
+        now())
+    </insert>
+
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_VENDER T
+        WHERE T.ID = #{id}
+    </select>
+</mapper>
