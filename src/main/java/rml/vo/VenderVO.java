@@ -1,5 +1,7 @@
 package rml.vo;
 
+import java.util.Objects;
+
 /**
  * Created by linzhongxia on 2017/10/11.
  */
@@ -67,5 +69,25 @@ public class VenderVO extends BaseVO {
 
     public void setCreaded(String creaded) {
         this.creaded = creaded;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VenderVO venderVO = (VenderVO) o;
+        return Objects.equals(venderId, venderVO.venderId) &&
+                Objects.equals(name, venderVO.name) &&
+                Objects.equals(qq, venderVO.qq) &&
+                Objects.equals(wx, venderVO.wx) &&
+                Objects.equals(telephone, venderVO.telephone) &&
+                Objects.equals(modified, venderVO.modified) &&
+                Objects.equals(creaded, venderVO.creaded);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(venderId, name, qq, wx, telephone, modified, creaded);
     }
 }

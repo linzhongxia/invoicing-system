@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	   default-autowire="byName">
+
+
+	<bean id="demoProxy" class="rml.sirector.proxy.DemoProxy"/>
+	<bean id="sirectorDemoExecute" class="com.jd.m.sirector.wrapper.spring.EventExecuteFactoryBean">
+		<property name="event" value="getVenderList, getSupplierList | mergeResult"/>
+		<property name="proxy" ref="demoProxy"/>
+		<property name="debug" value="true"/>
+		<property name="timeout" value="10000"/>
+	</bean>
+	<bean id="sirectorDemoThreadPool" class="java.util.concurrent.Executors" factory-method="newFixedThreadPool">
+		<constructor-arg value="10"/>
+	</bean>
+
+
+</beans>

@@ -1,5 +1,6 @@
 package rml.service.impl;
 
+import com.jd.jcache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import rml.dao.VenderMapper;
@@ -42,6 +43,7 @@ public class VenderServiceImpl extends BaseServiceImpl implements VenderService 
     }
 
     @Override
+    @Cacheable(pre = "venderList", key = "#vo.name", expire = 5 * 60 * 60)
     public List<VenderVO> getList(VenderVO vo) {
         List<Vender> venderList = venderMapper.getList(vo);
         if (CollectionUtils.isEmpty(venderList)) {
